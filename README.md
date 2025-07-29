@@ -10,3 +10,9 @@ In Django we have a project (capellano_acme) but I want to create apps within th
 features that I want for my project. We already have the admin feature but we want other things like the login app.
 
 Each app has it's own urls.py that handles the mapping of requests.
+
+We will be using templates since that allows us to have dynamic content, within a fixed layout.
+
+Because Django provides 'django.middleware.csrf.CsrfViewMiddleware', middleware we can use this {% csrf_token %} in our templates
+
+<a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
