@@ -19,6 +19,6 @@ from django.urls import path, include
 from courseguide.views import course_guide 
 
 urlpatterns = [
-    path('courseguide/', course_guide, name='course_guide'),  # Course guide URL
+    path('', course_guide, name='course_guide'),  # Course guide URL
     path('admin/', admin.site.urls),  # Admin site URL
 ]
