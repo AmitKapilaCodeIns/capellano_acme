@@ -15,4 +15,16 @@ We will be using templates since that allows us to have dynamic content, within 
 
 Because Django provides 'django.middleware.csrf.CsrfViewMiddleware', middleware we can use this {% csrf_token %} in our templates
 
+Models
+Hole model, Guide model, User model track pro who wrote it. Guide model link to Hole model so that we know which hole has had a guide added to it. The hole and guide models need to link the user model so we know who wrote what.
+
+Hole Description model
+Key | Name | Type | Extra info |
+--- | --- | --- | --- |
+FK | hole | hole Model | cascade on delete |
+FK | description_author | User model | cascade on delete |
+--- | body | TextField | --- |
+--- | Par | TextField |  |
+--- | Yardage | TextField |  |
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
