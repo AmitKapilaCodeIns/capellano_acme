@@ -6,4 +6,4 @@ from .models import Course
 
 
 class CourseList(generic.ListView):
-    model = Course
+    queryset = Course.objects.filter(author=2)

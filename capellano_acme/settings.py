@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_summernote',  # Django Summernote for rich text editing
     'courseguide',  # Course guide app
 ]
 
