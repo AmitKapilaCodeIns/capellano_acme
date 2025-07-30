@@ -18,7 +18,7 @@ Because Django provides 'django.middleware.csrf.CsrfViewMiddleware', middleware 
 Models
 Hole model, Guide model, User model track pro who wrote it. Guide model link to Hole model so that we know which hole has had a guide added to it. The hole and guide models need to link the user model so we know who wrote what.
 
-Hole Description model
+Hole guide model
 Key | Name | Type | Extra info |
 --- | --- | --- | --- |
 FK | hole | hole Model | cascade on delete |
@@ -26,5 +26,32 @@ FK | description_author | User model | cascade on delete |
 --- | body | TextField | --- |
 --- | Par | TextField |  |
 --- | Yardage | TextField |  |
+
+Course intro model
+Course_name and slug values should be unique to avoid having courses of the same name confusing your users. In Django, the slug is what you'll use to build a URL for each of your posts.
+Key | Name | Type | Extra info |
+--- | --- | --- | --- |
+--- | Course_name | Char(200) | Unique |
+--- | Slug (unique) | SlugField | --- |
+FK | Author | User Model | cascade on delete |
+--- | Content | TextField |  |
+--- | created_on | DateTimeField | auto_now_add
+--- | Status | Integer |  |
+
+Part 1 - env.py:
+By adding the env.py file to .gitignore, it will not be tracked by git or pushed to GitHub. This keeps our secret information safe by not having it publicly available.
+In the env.py file, the DATABASE_URL value was copied from our PostgreSQL from Code Institute email when we created our database instance.
+The os.environ.setdefault command sets an environment variable in the local operating system. We supply the variable name and value in the parentheses. In our case, this is called DATABASE_URL and the value is the URL we copied from our PostgreSQL from Code Institute email.
+
+Part 2 - settings.py:
+The dj_database_url import is used to convert the database URL we copied from our PostgreSQL from Code Institute email into a format that Django can use to connect to an external database server.
+The code uses another method from the os module to check if the env.py file path exists. If it does, then it will be imported. If it does not exist, the env import will not be attempted so that no error will occur. For example, when the app runs on Heroku, there will be no env.py file to load, as described above.
+This code uses os.environ.get to get the value stored in the DATABASE_URL environment variable. The value is then parsed using dj_database_url to put it in a format that Django can use.
+Part 3 - Heroku:
+We need to set the environment variable separately on Heroku because, as we mentioned, our env.py file is not pushed to GitHub. This means that when our app is running on Heroku, it won't be able to import the database URL settings. We'll go into more detail on the reasons behind this below.
+
+Keeping secrets secret
+
+Why do we set the DATABASE_URL variable in the environment rather than in the code? In the Django world, the DATABASE_URL is considered a secret. But why is that? It's because it contains sensitive information about your database, including the username, password, and database name. Keeping it a secret ensures the safety of your database from unwanted access. That's why we don't set it in code or allow our env.py file to be pushed to GitHub. Anyone with these details would have full access to your database. That is why we use an environment variable, which is just stored in memory on Heroku and is never shown to anyone else.
 
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
