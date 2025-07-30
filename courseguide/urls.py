@@ -7,5 +7,5 @@ from . import views
 # This file is used to define the URL routing for the 'calc' app.
 # Each path() function maps a URL to a specific view function.
 urlpatterns = [
-    path('', views.course_guide, name='course_guide'),  # Maps the root URL to the course_guide view
+    path('', views.CourseList.as_view(), name='home'),  # URL for the course list view
 ]

@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from courseguide.views import course_guide 
+
 
 urlpatterns = [
-    path('', course_guide, name='course_guide'),  # Course guide URL
+    path("", include("courseguide.urls"), name="courseguide-urls"),
     path('admin/', admin.site.urls),  # Admin site URL
 ]

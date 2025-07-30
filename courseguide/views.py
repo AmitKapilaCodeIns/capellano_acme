@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import Course
 
 # Create your views here.
 
 
-def course_guide(request):
-    return HttpResponse("Welcome to the Course Guide!")
+class CourseList(generic.ListView):
+    model = Course
