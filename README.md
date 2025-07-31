@@ -76,4 +76,52 @@ The blog project has multiple custom models, such as Post and Comment. It will a
 
 Although Django does not provide an app-level urls.py file by default, it is good to separate the urls.py files into separate apps because, as stated, this follows the Django design philosophy of loose coupling. Having one urls.py file per app keeps our apps more modular and independent. It also means that we can more easily change URLs without breaking our project. It's good to keep your apps as self-contained as possible. This enables an app from one project to be dropped into another.
 
+In the index.html the for loop iterates over the course_list object. 
+
+{% for course in course_list %}
+
+This object is passed into the template by the generic ListView, and contains the contents of the queryset that we defined earlier.
+
+class Course***List***(generic.ListView):
+    queryset = ***Course***.objects.all()  # Only show published courses
+    template_name = 'courseguide/index.html'  # Template to render the course list
+
+
+This if statement checks to see how many times our for loop has run. If the counter is divisible by three, then it inserts another closing div tag and a new div with the class of row. This is so that we have a maximum of three posts per row on the homepage
+
+In the navigation section of base.html, there's an anchor tag with the class of "navbar-brand", which links back to the homepage. What do you notice is different about ? Where do you think the value for 'home' comes from?
+
+<a class="navbar-brand" href="{% url 'home' %}"><span class="brand">c<span class="red-o">o</span>de<span
+                        class="thin">|star</span></span></a>
+
+The href is a DTL tag. Inside the tag, we have url and a reference to 'home'. The url tag returns an absolute path reference which is a URL without the domain name. It does this, in our example, for the URL named 'home'. Where does it get this name from? Take a look at the blog/urls.py file, and you will see that our main view has the name of home. So, when Django encounters a url tag, it looks up the name of the URL and inserts it for us.
+
+urlpatterns = [
+    path('', views.CourseList.as_view(), name='home'),  # URL for the course list view
+]
+
+At the top of the base.html we are assigning the 'home' URL to a variable named home_url, which is what the as keyword does. One last thing. The curious among you might be wondering why we couldn't just say {% if request.path == {% url 'home' %} %}? Why did we have to assign it to a variable? All excellent questions, which I'm sure you were thinking. The reason is that url itself is a tag, so we can't nest a tag inside another tag, so we had to assign the output of url to a variable.
+
+ {% url 'home' as home_url %}
+
+Then our if statement. It compares request.path, which is our current URL, with the home_url variable. If they're the same, then it inserts the word active into the class names.
+
+   <a class="nav-link {% if request.path == home_url %}active{% endif %}" 
+
+But, let's back up a second - what's this request.path business? Where did that come from? Remember that we said a view takes a web request and returns a web response? We have access to the contents of the request object in our views and templates. In this case, request.path is a string representing the full path to the requested page, not including the domain. Sound familiar? It's the same kind of string that is returned by the url tag. We can use this kind of pattern matching and variables in our own projects to improve the UX.
+
+We are using the course_list object. This was created using a bit more magic from the generic ListView in our views.py file. 
+
+class CourseList(generic.ListView):
+    queryset = Course.objects.all()  # Only show published courses
+    template_name = 'courseguide/index.html'  # Template to render the course list
+
+Django determines this based on the model name (Course) and the view type (List). In this case, the Course model and the generic ListView type.
+
+As we iterate we assign the results to the course variable. This variable is an object containing one single record from our database. We can then display the values using the object name and the field name separated by a dot, course.author, for example.
+
+The benefits of the url tag
+
+The url tag is useful because it helps with the DRY principle. If the URL scheme for your project changes, then you don't need to change every page that has a static URL, like you would in front-end projects. Use named URLs in your urls.py and template files, and you won't need to worry about URLs breaking.
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
