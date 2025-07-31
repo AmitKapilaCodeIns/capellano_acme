@@ -6,4 +6,5 @@ from .models import Course
 
 
 class CourseList(generic.ListView):
-    queryset = Course.objects.filter(author=2)
+    queryset = Course.objects.all()  # Only show published courses
+    template_name = 'courseguide/index.html'  # Template to render the course list
