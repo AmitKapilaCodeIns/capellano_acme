@@ -20,6 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("about/", include("about.urls"), name="about-urls"),  # URL for About app
+    path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),  # Admin site URL
     path("summernote/", include("django_summernote.urls")),  # URL for Django Summernote
     path("", include("courseguide.urls"), name="courseguide-urls"),
