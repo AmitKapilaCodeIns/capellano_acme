@@ -124,4 +124,38 @@ The benefits of the url tag
 
 The url tag is useful because it helps with the DRY principle. If the URL scheme for your project changes, then you don't need to change every page that has a static URL, like you would in front-end projects. Use named URLs in your urls.py and template files, and you won't need to worry about URLs breaking.
 
+
+Disabling COLLECTSTATIC
+
+One advantage of using a hosting provider like Heroku is that it knows how to deploy a Django project. As such, it automatically runs collectstatic for us, which means we don't need to do it ourselves. When the DISABLE_COLLECTSTATIC environment variable is set in Heroku, however, then it will not run collectstatic when deploying our project. This is why your Heroku-hosted admin dashboard has been unstyled up to now. You can even see collectstatic is skipped in the build logs.
+
+By removing DISABLE_COLLECTSATIC, Heroku will manage our static files for us automatically every time it deploys. So, from now on, you will not need to run collectstatic manually unless you choose to keep DEBUG set to False in your development environment or if you are deploying to a different hosting provider.
+
+Which is all wonderful and lovely, but why? Why do we need whitenoise, and why can't Django just serve the static files for us as it does in our development environment?
+
+Quite simply, Django does have the ability to serve these files, but its server is not suitable for a production environment. runserver lacks the scalability and security required for a production deployment. In the development environment it happily serves them for us, so we can test our project, but for production we need gunicorn to serve the project and whitenoise to serve the static files.
+
+Middleware?
+
+The name sounds like it came directly out of Tolkien, but the concept behind it is very simple. Remember how we said a view takes a web request and returns a web response? Well, middleware also sits between the request and the response, a bit like a specialised kind of view.
+
+Middleware can modify a request prior to it hitting the view code and then modify the response after the view has created it.
+
+Web request explained using a veggie burger
+If the web request and response are like the two halves of a burger bun, then the view is your delicious burger (or veggie burger for me), and middleware is like the lettuce, tomato and cheese that goes around the burger. The primary focus of the meal is the burger and bun, but the other things make it so much more tasty!
+
+Similarly, the request, response and view are the most important things, but the middleware adds additional functionality. In the case of Whitenoise, it modifies the response to load the static files from the staticfiles directory and serve them when a user visits our site.
+
+Note: Middleware often needs to be loaded in a particular order. The documentation for a piece of middleware will tell you where it needs to be in the MIDDLEWARE list in settings.py.
+
+And finally, .python-version
+
+In the text steps, you created a file named python-version. If Heroku finds this file, it will use it to determine which version of Python to run your project with. Using the same version of Python in development and hosted environments means that your application should behave the same in both.
+
+Heroku periodically updates the list of supported Python versions. You can see the current list in the Heroku documentation. If your project needs to be redeployed later, it would be worth checking that your Python version is still current.
+
+Within the index.html template's for-loop, update the anchor element to point to the post_detail view.
+<a href="{% url 'post_detail' post.slug %}" class="post-link">
+Note: This uses the name, post_detail from the urlpattern and the slug variable value is accessed with the same dot notation as seen for author, title, excerpt and so on.
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
