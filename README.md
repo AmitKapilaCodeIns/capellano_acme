@@ -158,4 +158,69 @@ Within the index.html template's for-loop, update the anchor element to point to
 <a href="{% url 'post_detail' post.slug %}" class="post-link">
 Note: This uses the name, post_detail from the urlpattern and the slug variable value is accessed with the same dot notation as seen for author, title, excerpt and so on.
 
+Explanation
+A string is appended to the end of the URL path that uniquely identifies the blog post. This string is the slug, which is the blog title in lowercase, with all spaces replaced with dashes and all punctuation removed.
+In the href, we constructed a DTL url tag, i.e. {% url 'post_detail' post.slug  %}. It contains post.slug, and the urlpattern name of 'post_detail'. As the anchor is inside the for-loop, post.slug is this blog post's slug value.
+In the blog/urls.py file, you can see the name of 'post_detail', which the template's anchor element was pointing to. Also, in the urlpattern is the name of the view it points to. Note that as this is a function-based view, no as_view() method is required, as we saw with class-based views. The critical component of the URL pattern for this topic is the part enclosed in angle brackets, denoted as <slug:slug>. This is where the slug value is passed from the template's URL tag. This urlpattern creates a url path of the domain path plus the slug value.
+Blog post URL path
+
+The slug is used for the blog post path as it uniquely identifies the post and contains only characters valid for a URL. In our Post model, we defined that the title and slug are unique, with unique=True, so we can be sure that the slug will only match one blog post. A slug is also more semantic than another unique identifier, such as the database table row number, which improves your site's ranking in search engines.
+
+Passing the argument from the template
+{% url 'post_detail' post.slug %}
+The DTL url tag syntax allows us to pass in an argument in addition to the urlpattern name. As the anchor element is inside the for loop, we can use post.slug as the argument, which gives us the slug value for the specific post in that iteration of the post_list object. This syntax is the same dot notation you used to access the post author, title and excerpt.
+URL path and arguments
+path('<slug:slug>/', views.post_detail, name="post_detail"),
+In the post_detail URL path, the argument value from the url tag is then passed into <slug:slug>. The slug path converter before the colon defines the data type as a slug, and the slug after the colon is the post.slug value passed from the template. You see this value in the URL path in the browser bar.
+If you had a human resources web app that identified workers by their ID badge number, then you could use the syntax <int:id_badge> to pass the integer argument to the URL path. Alternatively, a car mechanics web app identifying cars by their alphanumeric registration plate could do so with <str:reg>.
+
+Explanation
+The queryset applies a filter on the database to get only posts with a status of 1, which, from the STATUS constant in models.py, we know is mapped to "Published".
+This queryset is the same as used in the PostList class-based view so that only published posts are displayed.
+post_detail(request, slug)
+The slug parameter gets the argument value from the URL pattern named post_detail.
+path('<slug:slug>/', views.post_detail, name="post_detail"),
+The slug value is unique, so only one post in the database matches this argument.
+Python functions always have a return. The path to the template file is included in the view function return.
+return render(
+    request,
+    "blog/post_detail.html",
+    {"post": post},
+)
+Function-based view parameters
+def post_detail(request, slug):
+    queryset = Post.objects.filter(status=1)
+    post = get_object_or_404(queryset, slug=slug)
+    return render(
+      request,
+      "blog/post_detail.html",
+      {"post": post},
+  )
+Function-based views are more verbose than class-based ones. A view function takes a web request and returns a web response. A function-based view always passes in the request object as the first argument to the view. Convention dictates that we call this parameter request, but in fact, we could call it anything we want. In addition to the mandatory HTTP request object, the post_detail view has also been given a slug parameter. 
+The slug parameter exists so we can pass in the unique slug argument value from the URL for the one post we want to view.
+
+Post data object
+post = get_object_or_404(queryset, slug=slug)
+In the same way we used render() as a shortcut to load data to a template and return it, we can use the shortcut get_object_or_404() to get data or raise a Http404 error if the data object does not exist.
+By passing the queryset and the slug argument to get_object_or_404() helper function, we only get the one post returned with that unique slug. If there is a communication issue with the database, or an incorrect URL is manually typed in, and a post matching the slug is not found, then we will get a 404 error returned.
+
+404 resource
+In our view, we've assigned this result to the variable post.
+
+The view response
+
+We then add this variable to the dictionary in the render helper function. This {'post': post} object is then available for use in the template as the DTL variable {{ post }}. The next topic will go into much more detail about this object.
+return render(
+        request,
+        "blog/post_detail.html",
+        {"post": post},
+    )
+The response our view is returning is the contents of a webpage containing one post. In this view, we pass the request object, the path to the template and a dictionary of data to the Django render() helper function.
+The render function then returns an HttpResponse object with the result of the template and the rendered data from the dictionary.
+
+Explanation
+Part 1: Passing data from the view
+In our views file, we set the name of the object as post, e.g. {"post": post}. So, in post_detail.html, we can now access its attributes, which are the fields in our model, to insert blog post data, such as post.title, post.content etc. There are a lot of references to post, so we'll cover what they are below.
+As shown in the topic image, the object was being passed to the template as a Python dictionary, {"post": post}. We retrieved one single blog post, stored it in a variable called post and passed that through to the template in a dictionary where both the value and key name was, you guessed it, post. This is called context and it is how you pass data from your own views to a template.
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
