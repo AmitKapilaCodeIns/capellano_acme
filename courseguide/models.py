@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 STATUS = ((0, "Draft"), (1, "Published"))
 
@@ -14,6 +15,9 @@ class Course(models.Model):
         on_delete=models.CASCADE,
         related_name='course_intro'
     )
+    featured_image = CloudinaryField(
+        'image',
+        default='placeholder',)
     contact_info = models.CharField(max_length=20, blank=True)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)

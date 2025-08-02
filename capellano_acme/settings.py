@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',  # Cloudinary for image storage
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_summernote',  # Django Summernote for rich text editing
+    'cloudinary',  # Cloudinary for image handling
     'courseguide',  # Course guide app
     'about',  # About app
 ]
