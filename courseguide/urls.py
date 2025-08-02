@@ -9,4 +9,5 @@ from . import views
 urlpatterns = [
     path('', views.CourseList.as_view(), name='home'),  # URL for the course list view
     path('<slug:slug>/', views.course_detail, name='course_detail'),  # URL for course detail view
+    path('<slug:slug>/edit/<int:guide_id>/', views.hole_guide_edit, name='hole_guide_edit'),  # URL for editing a hole guide
 ]

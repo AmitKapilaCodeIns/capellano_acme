@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div class="masthead">
     <div class="container">
@@ -26,6 +27,55 @@
                 <p class="card-text">
                     {{ course.content | safe }}
                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Displaying Hole guides -->
+    <div class="row">
+        <div class="col-md-8 card mb-4  mt-3 ">
+            <h3>Hole-by-Hole Guide ({{ hole_count }} holes)</h3>
+            <div class="card-body">
+                <!-- We want a for loop inside the empty control tags
+          to iterate through each guide in hole guides -->
+                {% if hole_guides %}
+                <ul>
+                    {% for hole in hole_guides %}
+                    <li>
+                        <h3>Hole {{ hole.hole_number }}{% if hole.name %}: {{ hole.name }}{% endif %}</h3>
+                        <p><strong>Par:</strong> {{ hole.par }}</p>
+                        <p><strong>Yardage:</strong> {{ hole.yardage }} yards</p>
+                        <p><strong>Stroke Index:</strong> {{ hole.stroke_index }}</p>
+                        <p><strong>Guide:</strong> {{ hole.guide }}</p>
+                        {% if hole.image %}
+                        <p>
+                            <img src="{{ hole.image.url }}" alt="Hole {{ hole.hole_number }}" style="max-width: 400px;">
+                        </p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No hole guides available for this course yet.</p>
+                {% endif %}
+
+                <!-- Creating New Hole Guide -->
+                <div class="col-md-4 card mb-4 mt-3">
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                        <h3>Please enter a guide to the hole:</h3>
+                        <p>Creating the guide as: {{ user.username }}</p>
+                        <form id="commentForm" method="post" style="margin-top: 1.3em;">
+                            {{ hole_form | crispy }}
+                            {% csrf_token %}
+                            <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+                        </form>
+                        {% else %}
+                        <p>Log in to enter a hole guide</p>
+                        {% endif %}
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

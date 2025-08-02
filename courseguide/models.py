@@ -27,7 +27,7 @@ class Course(models.Model):
         return f"The name of the course is {self.course_name} and the slug is {self.slug}"
 
 
-HOLE_NUMBERS = [(i, f"Hole {i}") for i in range(1, 19)]
+HOLE_NUMBERS = [(i, f"{i}") for i in range(1, 19)]
 class HoleGuide(models.Model):
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='holes')

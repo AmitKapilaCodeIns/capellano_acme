@@ -223,4 +223,80 @@ Part 1: Passing data from the view
 In our views file, we set the name of the object as post, e.g. {"post": post}. So, in post_detail.html, we can now access its attributes, which are the fields in our model, to insert blog post data, such as post.title, post.content etc. There are a lot of references to post, so we'll cover what they are below.
 As shown in the topic image, the object was being passed to the template as a Python dictionary, {"post": post}. We retrieved one single blog post, stored it in a variable called post and passed that through to the template in a dictionary where both the value and key name was, you guessed it, post. This is called context and it is how you pass data from your own views to a template.
 
+Entering a hole guide using post method:
+
+What I see when entering a hole number that already exists:
+
+IntegrityError at /augusta-national/
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
+Request Method:	POST
+Request URL:	http://127.0.0.1:8000/augusta-national/
+Django Version:	4.2.22
+Exception Type:	IntegrityError
+Exception Value:	
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
+Exception Location:	/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/django/db/backends/utils.py, line 89, in _execute
+Raised during:	courseguide.views.course_detail
+Python Executable:	/usr/local/bin/python3
+Python Version:	3.9.13
+Python Path:	
+['/Users/amitkapila/Documents/vscode-projects/capellano-milestone3',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python39.zip',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/lib-dynload',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']
+Server time:	Sat, 02 Aug 2025 15:25:58 +0000
+
+Enter a link to Desktop/restrictedHoleEntry.png
+
+AllAuth templates
+
+The AllAuth-provided templates are basic HTML. This look is because they expect the developer to style them based on the rest of the project. If AllAuth did include fonts and colours, they would likely clash with the styles of the project it was added to.
+
+Template inheritance
+
+AllAuth templates had their own account/base.html file from which all the other templates inherit. By updating the path to simply base.html, the inheritance is then from the base.html template in our project. This change gives the AllAuth templates access to the custom CSS and Bootstrap CSS/JavaScript used throughout the project.
+
+The AllAuth templates look like the rest of the project by adding nested div elements with Bootstrap container and row and column classes. The colours of the background and buttons are from the custom CSS file.
+
+Retrieving the hole guides
+
+As can be seen in the topic image, we retrieve all the guides linked to the selected Course using the holes object. But, where does this holes object on our Course come from, though? If you check models.py, you won't see it in the Course model.
+
+The important thing to remember is that this is a ForeignKey, a many-to-one, relationship. One course will, hopefully, have many hole guides. The course field in the HoleGuide model stores the ID of the Course that a hole guide is linked to. For example, if guides 1, 2 and 3 are all about Course 1, then they will all have the same Foreign Key value of course = 1.
+
+While the Course model doesn't have a field named hole_guides, the related_name in our HoleGuide model sets up a logical link, effectively creating this association, as you can see in the image and the code.
+course = models.ForeignKey(
+    Course,
+    on_delete=models.CASCADE,
+    related_name="holes"
+)
+So, when we use course.holes.all(), it will return all holes related to the selected course by using related_name="holes".
+This is what is called a reverse lookup. We don't access the HoleGuide model directly. Instead, we fetch the related data from the perspective of the Course model.
+
+n the blog/forms.py file.
+We created a class called CommentForm that inherited from Django's forms.ModelForm class. Because this class is inherited from a built-in Django class, we can simply use the Meta class to tell the ModelForm class what models and fields we want in our form. form.ModelForm will then build this for us.
+We included the body field for the user to complete. This field was imported from the Comment model . We didn't need to include the other fields because the post, user and created_on fields in our model are filled in automatically, and the approved field is managed by the superuser.
+In the blog/views.py file:
+Ignoring the if block for now, we import the CommentForm class from .forms at the top of the file. We then assign it to a variable named comment_form and add that to our context for when the template is being rendered.
+In the post_detail.html template:
+At the top of the file, we load the crispy_forms_tags. Then, we simply used a Django Template Language variable to render the form and used the | crispy filter to get Crispy Forms to style it.
+If you remove the | crispy filter, then the form is rendered as a standard HTML form. We'll explain more about what Crispy Forms actually does below.
+This is another way Django helps to protect us from cross-site attacks. We discussed some of these earlier in the course when we set the CSRF_ALLOWED_HOSTS setting. If you remove the {% csrf_token %} tag then Django will return an error when you try to submit the form. We'll explain why in more detail below. Make sure to add your CSRF token back into your code before you continue.
+Forms are better when they're Crispy
+
+So, what does Crispy Forms actually do? In our settings.py file, we told Crispy Forms to use bootstrap5 as our template pack:
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+Therefore, when we use the | crispy filter on our form, it is rendered using Bootstrap 5 form controls and classes. As a result, we don't need to create a styled form template ourselves, which would be time-consuming.
+CSRF again!
+
+Earlier in the course, we talked about cross-site scripting and how Django helps to protect us from that using the CSRF_ALLOWED_HOSTS setting. We see another of Django's protections against cross-site request forgery in our comments form, the {% csrf_token %} tag.
+
+This little tag needs to be added every time we render a form. When this tag is present, Django generates a unique CSRF token, which it sends along with our POST request. Django then checks that token before processing the POST request. When you removed the token or if it doesn't match what Django was expecting, then we get an error, and Django won't process the request.
+
+Exactly how it does this is quite complicated. The critical thing to remember, though, is that you won't be able to process any POSTed forms unless you've provided a {% csrf_token %}. If you have more than one form on a page, you will need this tag on each of them.
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
