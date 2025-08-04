@@ -21,16 +21,13 @@
                                 <img class="card-img-top" src="{{ course.featured_image.url }}" alt="{{ course.course_name }}">
                                 {% endif %}
                                 <div class="image-flash">
-                                    <p class="author">Author: {{ course.author }}</p>
+                                    <p class="author">Tel: {{ course.contact_info }}</p>
                                 </div>
                             </div>
                             <a href="{% url 'course_detail' course.slug %}" class="post-link">
                                 <h2 class="card-title">{{ course.course_name }}</h2>
                             </a>
-                            <p class="card-text">Tel: {{ course.contact_info }}</p>
                             <hr />
-                            <p class="card-text text-muted h6">{{ course.created_on}}
-                            </p>
                         </div>
                     </div>
                 </div>

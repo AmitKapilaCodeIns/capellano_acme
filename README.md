@@ -299,4 +299,26 @@ This little tag needs to be added every time we render a form. When this tag is 
 
 Exactly how it does this is quite complicated. The critical thing to remember, though, is that you won't be able to process any POSTed forms unless you've provided a {% csrf_token %}. If you have more than one form on a page, you will need this tag on each of them.
 
+IntegrityError at /manor-house/
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(1, 6) already exists.
+Request Method:	POST
+Request URL:	http://127.0.0.1:8000/manor-house/
+Django Version:	4.2.22
+Exception Type:	IntegrityError
+Exception Value:	
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(1, 6) already exists.
+Exception Location:	/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/django/db/backends/utils.py, line 89, in _execute
+Raised during:	courseguide.views.course_detail
+Python Executable:	/usr/local/bin/python3
+Python Version:	3.9.13
+Python Path:	
+['/Users/amitkapila/Documents/vscode-projects/capellano-milestone3',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python39.zip',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/lib-dynload',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']
+Server time:	Sun, 03 Aug 2025 20:54:51 +0000
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from

@@ -12,5 +12,5 @@ class HoleGuideForm(forms.ModelForm):
             'yardage',
             'stroke_index',
             'guide',
-            'image',
+            'featured_image',
         )

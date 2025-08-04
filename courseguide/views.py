@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponseRedirect
 from django.views import generic
 from .models import Course, HoleGuide
@@ -34,15 +34,16 @@ def course_detail(request, slug):
 
     if request.method == "POST":
 
-        hole_form = HoleGuideForm(data=request.POST)
+        hole_form = HoleGuideForm(data=request.POST, files=request.FILES)
         if hole_form.is_valid():
             guide = hole_form.save(commit=False)
             guide.course = course
             guide.author = request.user
             guide.save()
-            messages.add_message(request, messages.SUCCESS, "Your hole guide has been submitted for approval.")
-
-    hole_form = HoleGuideForm()
+            messages.success(request, "Your hole guide has been submitted for approval.")
+            return redirect('course_detail', slug=slug)  # avoid form resubmission on refresh
+    else:
+        hole_form = HoleGuideForm()
 
     return render(
         request,

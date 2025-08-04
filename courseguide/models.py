@@ -42,7 +42,7 @@ class HoleGuide(models.Model):
     yardage = models.PositiveIntegerField()
     stroke_index = models.PositiveSmallIntegerField(help_text="1 = hardest hole, 18 = easiest")
     guide = models.TextField(help_text="Strategic tips or description for playing the hole.")
-    image = models.ImageField(upload_to='hole_images/', blank=True, null=True)
+    featured_image = CloudinaryField('image', default='placeholder',)
     approved = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
 
