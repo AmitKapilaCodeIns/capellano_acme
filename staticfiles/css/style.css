@@ -1,7 +1,8 @@
 body {
     background-color: #F9FAFC;
-    font-family: 'Libre Franklin', sans-serif; /* Libertinus Sans fallback */
+    font-family: 'Barlow', sans-serif;
 }
+
 
 
 .brand {
@@ -11,6 +12,9 @@ body {
     color: #4A4A4F;
 }
 
+.bg-navbar {
+    background-color: rgb(224, 194, 155);
+}
 
 .red-o {
     color: #E84610;
@@ -30,10 +34,7 @@ body {
 
 .main-bg {
     background-color: #9bca9b;
-    background-image: url('https://images.unsplash.com/photo-1572102581448-2eec0c7a6b38?auto=format&fit=crop&w=1400&q=80');
 }
-
-
 
 .card {
     border: none;
@@ -63,6 +64,14 @@ body {
     height: auto;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.profile-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .author {
@@ -105,17 +114,17 @@ body {
     z-index: 100;
 }
 
-.post-link {
+.course-link {
     text-decoration: none;
     color: #445261;
 }
 
-.post-link:hover,
+.course-link:hover,
 .page-link {
     color: #E84610;
 }
 
-.post-title {
+.course-title {
     margin-top: 10%;
     margin-left: 5%;
 }

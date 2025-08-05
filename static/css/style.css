@@ -114,17 +114,17 @@ body {
     z-index: 100;
 }
 
-.post-link {
+.course-link {
     text-decoration: none;
     color: #445261;
 }
 
-.post-link:hover,
+.course-link:hover,
 .page-link {
     color: #E84610;
 }
 
-.post-title {
+.course-title {
     margin-top: 10%;
     margin-left: 5%;
 }
