@@ -321,4 +321,48 @@ Python Path:
  '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']
 Server time:	Sun, 03 Aug 2025 20:54:51 +0000
 
+To allow file uploads such as Cloudinary images via a form in your course_detail.html, you need to make two key changes:
+1. Update the HTML form to support file uploads
+Right now, your form is missing the enctype="multipart/form-data" attribute, which is required to handle file uploads.
+Change this:
+
+<form id="commentForm" method="post" style="margin-top: 1.3em;">
+To this:
+<form id="commentForm" method="post" enctype="multipart/form-data" style="margin-top: 1.3em;">
+✅ 2. Ensure your view handles request.FILES
+In your views.py, wherever you're handling hole_form, make sure you include request.FILES when creating the form instance.
+For example:
+
+hole_form = HoleGuideForm(request.POST or None, request.FILES or None)
+And when saving the form:
+if request.method == 'POST':
+    hole_form = HoleGuideForm(request.POST, request.FILES)
+    if hole_form.is_valid():
+        hole_guide = hole_form.save(commit=False)
+        hole_guide.author = request.user
+        hole_guide.course = course  # Link it to the current course
+        hole_guide.save()
+        return redirect('course_detail', slug=course.slug)
+✅ 3. Your ModelForm should include featured_image
+In forms.py, ensure that your form includes the featured_image field:
+from django import forms
+from .models import HoleGuide
+
+class HoleGuideForm(forms.ModelForm):
+    class Meta:
+        model = HoleGuide
+        fields = ['hole_number', 'name', 'par', 'yardage', 'stroke_index', 'guide', 'featured_image']
+✅ 4. Make sure you have configured Cloudinary
+In settings.py:
+import cloudinary
+import cloudinary.uploader
+import cloudinary.forms
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your_cloud_name',
+    'API_KEY': 'your_api_key',
+    'API_SECRET': 'your_api_secret',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from

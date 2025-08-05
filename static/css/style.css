@@ -1,13 +1,16 @@
 body {
     background-color: #F9FAFC;
+    font-family: 'Libre Franklin', sans-serif; /* Libertinus Sans fallback */
 }
 
+
 .brand {
-    font-family: "Playwrite AU QLD", cursive;
+    font-family: "Playwrite AU QLD", "Brush Script MT", cursive;
     font-size: 1.4rem;
     font-weight: 700;
     color: #4A4A4F;
 }
+
 
 .red-o {
     color: #E84610;
@@ -49,6 +52,14 @@ body {
 .scale {
     width: 100%;
     height: auto;
+}
+
+.hole-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .author {
