@@ -29,8 +29,11 @@ body {
 }
 
 .main-bg {
-    background-color: #F9FAFC;
+    background-color: #9bca9b;
+    background-image: url('https://images.unsplash.com/photo-1572102581448-2eec0c7a6b38?auto=format&fit=crop&w=1400&q=80');
 }
+
+
 
 .card {
     border: none;
