@@ -11,6 +11,7 @@ from .forms import HoleGuideForm
 class CourseList(generic.ListView):
     queryset = Course.objects.filter(status=1)  # Only show published courses
     template_name = 'courseguide/index.html'  # Template to render the course list
+    paginate_by = 6  # Number of courses per page
 
 
 def course_detail(request, slug):
