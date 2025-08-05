@@ -1,7 +1,8 @@
 body {
     background-color: #F9FAFC;
-    font-family: 'Libre Franklin', sans-serif; /* Libertinus Sans fallback */
+    font-family: 'Barlow', sans-serif;
 }
+
 
 
 .brand {
@@ -11,6 +12,9 @@ body {
     color: #4A4A4F;
 }
 
+.bg-navbar {
+    background-color: rgb(224, 194, 155);
+}
 
 .red-o {
     color: #E84610;
@@ -29,7 +33,7 @@ body {
 }
 
 .main-bg {
-    background-color: #F9FAFC;
+    background-color: #9bca9b;
 }
 
 .card {
@@ -60,6 +64,14 @@ body {
     height: auto;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.profile-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .author {
