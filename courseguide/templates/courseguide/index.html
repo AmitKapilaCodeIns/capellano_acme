@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load cloudinary %}
 
 {% block content %}
 
@@ -16,9 +17,12 @@
                         <div class="card-body">
                             <div class="image-container">
                                 {% if "placeholder" in course.featured_image.url %}
-                                <img class="card-img-top" src="{% static 'images/hole1Addington.png' %}" alt="Placeholder Image">
+                                <img class="card-img-top" src="{% static 'images/hole1Addington.png' %}" width="395"
+                                    height="268.594""
+                                    alt="Placeholder Image">
                                 {% else %}
-                                <img class="card-img-top" src="{{ course.featured_image.url }}" alt="{{ course.course_name }}">
+                                {% cloudinary course.featured_image.url width=395 height=268.594 crop="fill" gravity="auto" alt="Course" %}
+
                                 {% endif %}
                                 <div class="image-flash">
                                     <p class="author">Tel: {{ course.contact_info }}</p>
