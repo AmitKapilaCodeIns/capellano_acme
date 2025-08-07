@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponseRedirect
 from django.views import generic
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 from .models import Course, HoleGuide
 from .forms import HoleGuideForm
 
@@ -13,7 +15,7 @@ class CourseList(generic.ListView):
     template_name = 'courseguide/index.html'  # Template to render the course list
     paginate_by = 6  # Number of courses per page
 
-
+@login_required
 def course_detail(request, slug):
     """
     Display an individual :model:`courseguide.Course`.
@@ -34,6 +36,8 @@ def course_detail(request, slug):
     hole_count = course.holes.filter(approved=True).count()
 
     if request.method == "POST":
+        if not request.user.has_perm('courseguide.add_holeguide'):
+            raise PermissionDenied("You do not have permission to add hole guides.")
 
         hole_form = HoleGuideForm(data=request.POST, files=request.FILES)
         if hole_form.is_valid():
@@ -60,7 +64,7 @@ def course_detail(request, slug):
 
 def hole_guide_edit(request, slug, guide_id):
     """
-    Edit an existing hole guide.
+    Edit an existing hole guide. This view returns you to the course's webpage after you've edited the hole_guide. This return is done with a HttpResponseRedirect and reverse to refresh the course_detail view.
 
     **Context**
 
