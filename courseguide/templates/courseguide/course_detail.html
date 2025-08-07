@@ -45,14 +45,20 @@
                         <p><strong>Par:</strong> {{ hole.par }}</p>
                         <p><strong>Yardage:</strong> {{ hole.yardage }} yards</p>
                         <p><strong>Stroke Index:</strong> {{ hole.stroke_index }}</p>
-                        <p><strong>Guide:</strong> {{ hole.guide }}</p>
+
+                        <div id="hole{{ hole.id }}">
+                            {{ hole.guide | linebreaks }}
+                        </div>
+
                         {% if hole.featured_image %}
                         <p>
                             <img src="{{ hole.featured_image.url }}" alt="Hole {{ hole.hole_number }}"
                                 class="hole-image">
                         </p>
                         {% endif %}
-
+                        {% if user.is_authenticated and hole.author == user %}
+                        <button class="btn btn-edit" hole_id="{{ hole.id }}">Edit</button>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
@@ -63,17 +69,17 @@
                 <!-- Creating New Hole Guide -->
                 <div class="col-md-4 card mb-4 mt-3">
                     <div class="card-body">
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and perms.courseguide.add_holeguide %}
                         <h3>Please enter a guide to the hole:</h3>
                         <p>Creating the guide as: {{ user.username }}</p>
-                        <form id="commentForm" method="post" enctype="multipart/form-data" style="margin-top: 1.3em;">
+                        <form id="holeForm" method="post" enctype="multipart/form-data" style="margin-top: 1.3em;">
 
                             {{ hole_form | crispy }}
                             {% csrf_token %}
                             <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
                         </form>
                         {% else %}
-                        <p>Log in to enter a hole guide</p>
+                        <p>Log in to enter a hole guide. You must be an editor to submit a hole guide.</p>
                         {% endif %}
                     </div>
                 </div>
@@ -84,3 +90,7 @@
 </div>
 
 {% endblock content %}
+
+{% block extras %}
+<script src="{% static 'js/guides.js' %}"></script>
+{% endblock extras %}
