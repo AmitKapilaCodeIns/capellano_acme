@@ -365,4 +365,6 @@ CLOUDINARY_STORAGE = {
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+https://youtu.be/wlYaUvfXJDc?si=5smLZ3n-6ahGstGf
+
 <a href='https://monsterone.com/graphics/logo-templates/'>Logo Templates item created by Greenflash - https://monsterone.com</a> is where I got the template from
