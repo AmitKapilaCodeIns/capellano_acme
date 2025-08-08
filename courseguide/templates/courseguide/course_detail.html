@@ -50,6 +50,13 @@
                             {{ hole.guide | linebreaks }}
                         </div>
 
+                        <!-- Add hidden fields or data attributes -->
+                        <span id="hole-num-{{ hole.id }}" style="display: none;">{{ hole.hole_number }}</span>
+                        <span id="hole-name-{{ hole.id }}" style="display: none;">{{ hole.name }}</span>
+                        <span id="hole-par-{{ hole.id }}" style="display: none;">{{ hole.par }}</span>
+                        <span id="hole-yardage-{{ hole.id }}" style="display: none;">{{ hole.yardage }}</span>
+                        <span id="hole-si-{{ hole.id }}" style="display: none;">{{ hole.stroke_index }}</span>
+
                         {% if hole.featured_image %}
                         <p>
                             <img src="{{ hole.featured_image.url }}" alt="Hole {{ hole.hole_number }}"
