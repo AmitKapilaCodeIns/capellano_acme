@@ -1,3 +1,250 @@
+# Course guide
+
+## Planning
+
+-   The site owner's goal is to create an ergonomically presented site that allows amateur golfers to plan their course strategy prior to playing. Golf pros are invited to impart their knowledge of the nuances of each hole on golf courses they have played and know well.
+
+## Requirements
+
+-   The site owner wants readers to enjoy using the site. With that in mind the pages should be visually appealing at the same time simple to use.
+
+-   The site should be responsive, adapting to all screen sizes.
+
+-   Golf pros should be allowed to change their own hole guides in line with how the golf course changes over time.
+
+![Site images in all screens size responsive](./documentation/all-devices-black.png)
+
+---
+
+## User Stories
+
+### View each golf hole guide in ascending order
+#### As a golfer I can view each hole description so that I can strategise how to play each hole
+
+-   Given there are numerous holes on the course, the guide for each is listed.
+
+-   When a user selects a course a list of guides is seen
+
+-   Then the user sees all holes in the order in which it will be played.
+
+### Par and yardage
+#### As a golfer I can see the par and yardage so that I can plan my shots effectively
+
+-   The par for each hole is visible.
+
+-   The yardage to the centre per tee colour is available.
+
+
+### View map
+#### As a golfer I can a visual map or diagram of each hole so that I can understand the terrain and layout
+
+-   The user can view key hazards (e.g., bunkers, water, OB)
+
+-   The text is clear against the background map
+
+-   The hole detail page loads successfully with HTTP status 200 and no visible rendering errors.
+
+
+### Strategy tips
+#### As a golfer I can read strategy tips so that I can avoid common mistakes
+
+-   The tips are clear and concise
+
+-   The map supports and aligns with the written guide
+
+-   The tips provide aim points with yardages
+
+
+### Account registration
+#### As a golf course's resident pro I can register an account so that I can provide hole guides
+
+-   Given an email a pro can register an account
+
+-   Then the pro can login
+
+-   When the pro is logged in they can add hole descriptions
+
+### Approve guides
+#### As a Site Admin I can approve or disapprove hole descriptions so that I can filter out descriptions that do not meet criteria
+
+-   I can approve a hole description.
+
+-   I can disapprove the description.
+
+### Manage hole guides
+#### As a Site Admin I can create, read, update and delete hole guides so that I can manage my guide content
+
+-   Given a logged in golf pro, they can create a hole guide for the course they work at
+
+-   Given a logged in user, they can read hole guides for the course they are about to play
+
+-   Given a logged in golf pro, they can update a hole guide
+
+-   Given a logged in golf pro, they can delete a hole guide
+
+### Create drafts
+#### As a Site Admin I can create draft guides so that I can finish writing the content later
+
+-   Given a logged in user, they can save a draft hole guide
+
+-   Then they can finish the content at a later time
+
+### View a course
+#### As a Site User, I can click on a course so that I can read the full text
+
+-   When a course title is clicked on a detailed view of the course is seen.
+
+### Read about the site
+#### As a Site user I can click on the About link so that I can read about the site.
+
+-   When the About link is clicked, the about text is visible.
+
+### Add and update the about text
+#### As a Site Admin I can create or update the about page content so that it is available on the site
+
+-   The About app is visible in the admin panel.
+
+### Modify or delete hole guides for a course
+#### As a Golf Pro I can modify or delete my comments on a hole guide so that I can provide professional tips to players
+
+-   Given a logged in pro, they can modify their comment
+
+-   Given a logged in pro, they can delete their comment
+
+---
+
+## Features
+
+The site has 6 different course divs per page. Each div has a visually appealing signature picture of the course. A visitor clicks on the course name to find the hole guides. They can then view each hole in ascending order in a simple, clean course detail page. The minimal look complements how simple it is to find the information you need. There are 3 types of user; superuser, editor then reader. Golf pros will be given editor access. Readers are amateur golfers who will be able to register their logins and view the guides.
+Their is an about page that allows users to find out more about the creator.
+
+-   Clear Navigation: Easily navigate through different sections of the website.
+-   Responsive Design: The site adapts gracefully to various screen sizes, ensuring optimal usability whether you're browsing on a desktop, tablet, or mobile device. I used media queries for the different screen sizes.
+
+---
+
+## Code
+
+#### Files
+
+-   Files are grouped in directories by file type
+<pre><code>
+capellano-milestone3 % ls  *  
+db.sqlite3		manage.py		README.md
+env.py			Procfile		requirements.txt
+
+__pycache__:
+env.cpython-312.pyc	env.cpython-39.pyc
+
+about:
+__init__.py	admin.py	migrations	templates	urls.py
+__pycache__	apps.py		models.py	tests.py	views.py
+
+calc:
+__init__.py	admin.py	migrations	templates	urls.py
+__pycache__	apps.py		models.py	tests.py	views.py
+
+capellano_acme:
+__init__.py	asgi.py		urls.py
+__pycache__	settings.py	wsgi.py
+
+courseguide:
+__init__.py	apps.py		migrations	templates	views.py
+__pycache__	fixtures	models.py	tests.py
+admin.py	forms.py	signals.py	urls.py
+
+documentation:
+all-devices-black.png
+
+hole_images:
+hole1Addington.png
+
+static:
+css	images	js
+
+staticfiles:
+admin		css		js
+cloudinary	images		summernote
+
+templates:
+account		mfa		socialaccount
+base.html	openid		tests
+</code></pre>
+
+
+#### Code format
+
+-   VS code automatically indents HTML, Javascript and CSS to ease readability.
+
+```
+
+for (let button of deleteButtons) {
+  button.addEventListener("click", (e) => {
+    let holeId = e.target.getAttribute("hole_id");
+    deleteConfirm.href = `delete_hole_guide/${holeId}`;
+    deleteModal.show();
+  });
+}
+
+```
+#### Code understandability
+
+-   Copious amounts of comments to explain what the code is doing and why.
+
+```
+@login_required
+def course_detail(request, slug):
+    """
+    Display an individual :model:`courseguide.Course`.
+
+    **Context**
+
+    ``course``
+        An instance of :model:`courseguide.Course`.
+
+    **Template:**
+
+    :template:`courseguide/course_detail.html`
+    """
+
+    queryset = Course.objects.filter(status=1)
+    course = get_object_or_404(queryset, slug=slug)
+    hole_guides = course.holes.filter(approved=True).order_by('hole_number')
+    hole_count = course.holes.filter(approved=True).count()
+
+```
+
+#### Code validation
+
+-   Python code was run through a Linter to analyze code and flag programming errors, bugs, stylistic errors and suspicious constructs.
+
+![Python code linter](./documentation/codeLinter.png)
+
+-   Javascript was run through JSHint without ES6 checks.
+
+![Javascript code linter](./documentation/JSHint.png)
+
+## Testing
+
+#### Manual Testing
+
+-   In addition to automated testing, this project has also been manually tested to ensure everything works as expected. Here are the steps for manual testing:
+
+Open the game in a web browser. Select a difficulty level, between Easy and Hard. Flip over two cards. If they match, they should stay face up. If they don't match, they should be flipped back over after a short delay. Continue flipping over cards until all pairs have been matched. The game should then display a score indicating how many turns it took to win. Test the game in different browsers and on different devices to ensure it works correctly in all environments.
+
+| Feature          | Action                    | Expected result                           | Tested | Passed | Comments |
+| ---------------- | ------------------------- | ----------------------------------------- | ------ | ------ | -------- |
+| Home             | Click on the "Home" link  | The user is redirected to the main page   | Yes    | Yes    | \-       |
+| " Home page"     |                           |                                           |        |        |          |
+| "Restart" button | Click on "Restart" button | The new cards flip to show the back page  | Yes    | Yes    | \-       |
+| "Easy" button    | Click on "Easy" button    | Easy new cards flip to show the back page | Yes    | Yes    | \-       |
+| "Hard" button    | Click on "Hard" button    | Hard new cards flip to show the back page | Yes    | Yes    | \-       |
+
+ Use Bootstrap spacing utilities (if using Bootstrap)
+If you're already using Bootstrap, you can add spacing using utility classes:
+
+<li class="mb-4">  <!-- Adds margin-bottom -->
+
 Make sure to set Debug=False in the project's settings.py before deploying it to the server else someone can hack your development server and garner sensitive information from your logs.
 
 The MIDDLEWARE section helps you with security.
