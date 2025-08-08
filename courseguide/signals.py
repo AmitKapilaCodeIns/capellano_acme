@@ -1,5 +1,5 @@
 from django.contrib.auth.models import Group, Permission
-from courseguide.models import HoleGuide
+
 
 # Create groups
 editors_group, created = Group.objects.get_or_create(name='Editors')

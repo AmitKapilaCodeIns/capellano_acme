@@ -2,6 +2,7 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from .models import Course, HoleGuide
 
+
 @admin.register(Course)
 class CourseAdmin(SummernoteModelAdmin):
     list_display = ('course_name', 'slug', 'author', 'status', 'created_on')
@@ -10,5 +11,6 @@ class CourseAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
 
 # Register your models here.
+
 
 admin.site.register(HoleGuide)
