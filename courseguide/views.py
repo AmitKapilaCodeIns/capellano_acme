@@ -64,19 +64,17 @@ def course_detail(request, slug):
 
 def hole_guide_edit(request, slug, guide_id):
     """
-    Edit an existing hole guide. This view returns you to the course's webpage after you've edited the hole_guide. This return is done with a HttpResponseRedirect and reverse to refresh the course_detail view.
+    Edit an existing hole guide. This view returns you to the course's webpage after
+    you've edited the hole_guide. This return is done with a HttpResponseRedirect and
+    reverse to refresh the course_detail view.
 
     **Context**
 
     ``course``
-        An instance of :model:`courseguide.Course`.
+        An instance of :model:`courseguide.Course` to which the hole_guide belongs.
 
     ``hole_guide``
-        An instance of :model:`courseguide.HoleGuide`.
-
-    **Template:**
-
-    :template:`courseguide/hole_guide_edit.html`
+        An instance of :model:`courseguide.HoleGuide`to be edited.
     """
 
     if request.method == "POST":
@@ -94,5 +92,31 @@ def hole_guide_edit(request, slug, guide_id):
             messages.add_message(request, messages.SUCCESS, "Your hole guide has been updated and is pending approval.")
         else:
             messages.add_message(request, messages.ERROR, "Error updating the hole guide. Please ensure you are the author!")
+
+    return HttpResponseRedirect(reverse('course_detail', args=[slug]))
+
+
+def hole_guide_delete(request, slug, guide_id):
+    """
+    Delete a hole guide. This view returns you to the course's webpage after you've deleted the hole_guide. This return is done with a HttpResponseRedirect and reverse to refresh the course_detail view.
+
+    **Context**
+
+    ``course``
+        An instance of :model:`courseguide.Course` to which the hole_guide belongs.
+
+    ``hole_guide``
+        An instance of :model:`courseguide.HoleGuide` to be deleted.
+    """
+
+    # queryset = Course.objects.filter(status=1)
+    # course = get_object_or_404(queryset, slug=slug)
+    hole_guide = get_object_or_404(HoleGuide, pk=guide_id)
+
+    if hole_guide.author == request.user:
+        hole_guide.delete()
+        messages.add_message(request, messages.SUCCESS, "Your hole guide has been deleted.")
+    else:
+        messages.add_message(request, messages.ERROR, "You do not have permission to delete this hole guide.")
 
     return HttpResponseRedirect(reverse('course_detail', args=[slug]))
