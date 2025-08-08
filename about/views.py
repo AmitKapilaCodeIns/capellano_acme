@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import About
 
 # Create your views here.
+
+
 def about_me(request):
     """
     Render the 'about me' page with information about the site author.

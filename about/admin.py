@@ -6,7 +6,9 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(About)
 class AboutAdmin(SummernoteModelAdmin):
     """
-    Admin interface for the About model, using Summernote for rich text editing.
+    Admin interface for the About model, using
+    Summernote for rich text editing.
     """
 
     summernote_fields = ('content',)
+    

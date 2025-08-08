@@ -2,6 +2,8 @@ from django.db import models
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
+
+
 class About(models.Model):
     """
     Stores information about the site author
@@ -13,3 +15,4 @@ class About(models.Model):
 
     def __str__(self):
         return self.title
+    
