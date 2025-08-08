@@ -3,6 +3,10 @@ const editButtons = document.getElementsByClassName("btn-edit");
 const holeForm = document.getElementById("holeForm");
 const submitButton = document.getElementById("submitButton");
 
+const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+const deleteButtons = document.getElementsByClassName("btn-delete");
+const deleteConfirm = document.getElementById("deleteConfirm");
+
 // Form fields for editing hole guides
 const formNumber = document.getElementById("id_hole_number");
 const formName = document.getElementById("id_name");
@@ -48,5 +52,23 @@ for (let button of editButtons) {
     // Update form fields with the retrieved content
     submitButton.innerText = "Update";
     holeForm.setAttribute("action", `edit/${holeId}/`);
+  });
+}
+
+/**
+* Initializes deletion functionality for the provided delete buttons.
+* 
+* For each button in the `deleteButtons` collection:
+* - Retrieves the associated comment's ID upon click.
+* - Updates the `deleteConfirm` link's href to point to the 
+* deletion endpoint for the specific hole guide.
+* - Displays a confirmation modal (`deleteModal`) to prompt 
+* the user for confirmation before deletion.
+*/
+for (let button of deleteButtons) {
+  button.addEventListener("click", (e) => {
+    let holeId = e.target.getAttribute("hole_id");
+    deleteConfirm.href = `delete_hole_guide/${holeId}`;
+    deleteModal.show();
   });
 }
