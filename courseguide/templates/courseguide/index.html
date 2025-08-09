@@ -18,10 +18,10 @@
                             <div class="image-container">
                                 {% if "placeholder" in course.featured_image.url %}
                                 <img class="card-img-top" src="{% static 'images/hole1Addington.png' %}" width="395"
-                                    height="268.594""
+                                    height="269""
                                     alt="Placeholder Image">
                                 {% else %}
-                                {% cloudinary course.featured_image.url width=395 height=268.594 crop="fill" gravity="auto" alt="Course" %}
+                                {% cloudinary course.featured_image.url width=395 height=269 crop="fill" gravity="auto" alt="Course" %}
 
                                 {% endif %}
                                 <div class="image-flash">
