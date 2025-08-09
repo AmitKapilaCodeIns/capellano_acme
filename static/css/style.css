@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 body {
     background-color: #F9FAFC;
     font-family: 'Barlow', sans-serif;
@@ -60,7 +67,8 @@ body {
     width: 100%;
     max-width: 400px;
     height: auto;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     border-radius: 8px;
 }
 
@@ -68,7 +76,8 @@ body {
     width: 100%;
     max-width: 200px;
     height: auto;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
     border-radius: 50%;
 }
 
@@ -107,8 +116,8 @@ body {
     width: 150%;
     background: #445261;
     -webkit-transform: skew(15deg);
-    -moz-transform: skew(15deg);
-    transform: skew(15deg);
+    -ms-transform: skew(15deg);
+        transform: skew(15deg);
     z-index: 100;
 }
 
@@ -180,4 +189,3 @@ body {
 .approval {
     color: rgb(222, 146, 168);
 }
-
