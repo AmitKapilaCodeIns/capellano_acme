@@ -64,8 +64,8 @@
                         </p>
                         {% endif %}
                         {% if user.is_authenticated and hole.author == user %}
-                        <button class="btn btn-delete" hole_id="{{ hole.id }}">Delete</button>
-                        <button class="btn btn-edit" hole_id="{{ hole.id }}">Edit</button>
+                        <button class="btn btn-delete" data-hole_id="{{ hole.id }}">Delete</button>
+                        <button class="btn btn-edit" data-hole_id="{{ hole.id }}">Edit</button>
                         {% endif %}
                     </li>
                     {% endfor %}
