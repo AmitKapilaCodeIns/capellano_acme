@@ -28,7 +28,7 @@ const formText = document.getElementById("id_guide");
  */
 for (let button of editButtons) {
   button.addEventListener("click", (e) => {
-    let holeId = e.target.getAttribute("hole_id");
+    let holeId = e.target.getAttribute("data-hole_id");
 
     // Get content from hidden span elements
     let holeNum = document.getElementById(`hole-num-${holeId}`).innerText;
@@ -67,7 +67,7 @@ for (let button of editButtons) {
 */
 for (let button of deleteButtons) {
   button.addEventListener("click", (e) => {
-    let holeId = e.target.getAttribute("hole_id");
+    let holeId = e.target.getAttribute("data-hole_id");
     deleteConfirm.href = `delete_hole_guide/${holeId}`;
     deleteModal.show();
   });
