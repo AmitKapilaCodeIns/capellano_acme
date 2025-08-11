@@ -8,6 +8,7 @@
 body {
     background-color: #F9FAFC;
     font-family: 'Barlow', sans-serif;
+    padding-top: 76px; /* Adjust depending on your navbar height */
 }
 
 .brand {
