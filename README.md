@@ -1,4 +1,73 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Course guide](#course-guide)
+  - [Planning](#planning)
+  - [Requirements](#requirements)
+  - [User Stories](#user-stories)
+    - [View each golf hole guide in ascending order](#view-each-golf-hole-guide-in-ascending-order)
+      - [As a golfer I can view each hole description so that I can strategise how to play each hole](#as-a-golfer-i-can-view-each-hole-description-so-that-i-can-strategise-how-to-play-each-hole)
+    - [Par and yardage](#par-and-yardage)
+      - [As a golfer I can see the par and yardage so that I can plan my shots effectively](#as-a-golfer-i-can-see-the-par-and-yardage-so-that-i-can-plan-my-shots-effectively)
+    - [View map](#view-map)
+      - [As a golfer I can a visual map or diagram of each hole so that I can understand the terrain and layout](#as-a-golfer-i-can-a-visual-map-or-diagram-of-each-hole-so-that-i-can-understand-the-terrain-and-layout)
+    - [Strategy tips](#strategy-tips)
+      - [As a golfer I can read strategy tips so that I can avoid common mistakes](#as-a-golfer-i-can-read-strategy-tips-so-that-i-can-avoid-common-mistakes)
+    - [Account registration](#account-registration)
+      - [As a golf course's resident pro I can register an account so that I can provide hole guides](#as-a-golf-courses-resident-pro-i-can-register-an-account-so-that-i-can-provide-hole-guides)
+    - [Approve guides](#approve-guides)
+      - [As a Site Admin I can approve or disapprove hole descriptions so that I can filter out descriptions that do not meet criteria](#as-a-site-admin-i-can-approve-or-disapprove-hole-descriptions-so-that-i-can-filter-out-descriptions-that-do-not-meet-criteria)
+    - [Manage hole guides](#manage-hole-guides)
+      - [As a Site Admin I can create, read, update and delete hole guides so that I can manage my guide content](#as-a-site-admin-i-can-create-read-update-and-delete-hole-guides-so-that-i-can-manage-my-guide-content)
+    - [Create drafts](#create-drafts)
+      - [As a Site Admin I can create draft guides so that I can finish writing the content later](#as-a-site-admin-i-can-create-draft-guides-so-that-i-can-finish-writing-the-content-later)
+    - [View a course](#view-a-course)
+      - [As a Site User, I can click on a course so that I can read the full text](#as-a-site-user-i-can-click-on-a-course-so-that-i-can-read-the-full-text)
+    - [Read about the site](#read-about-the-site)
+      - [As a Site user I can click on the About link so that I can read about the site.](#as-a-site-user-i-can-click-on-the-about-link-so-that-i-can-read-about-the-site)
+    - [Add and update the about text](#add-and-update-the-about-text)
+      - [As a Site Admin I can create or update the about page content so that it is available on the site](#as-a-site-admin-i-can-create-or-update-the-about-page-content-so-that-it-is-available-on-the-site)
+    - [Modify or delete hole guides for a course](#modify-or-delete-hole-guides-for-a-course)
+      - [As a Golf Pro I can modify or delete my comments on a hole guide so that I can provide professional tips to players](#as-a-golf-pro-i-can-modify-or-delete-my-comments-on-a-hole-guide-so-that-i-can-provide-professional-tips-to-players)
+  - [Features](#features)
+  - [Code](#code)
+      - [Files](#files)
+      - [Code format](#code-format)
+      - [Code understandability](#code-understandability)
+      - [Code validation](#code-validation)
+  - [Testing](#testing)
+      - [Manual Testing](#manual-testing)
+      - [Error I see when entering a hole number that already exists. This prevents duplicate hole numbers:](#error-i-see-when-entering-a-hole-number-that-already-exists-this-prevents-duplicate-hole-numbers)
+      - [Differences Between Manual and Automated Testing](#differences-between-manual-and-automated-testing)
+      - [Console](#console)
+      - [Accessibility](#accessibility)
+      - [HTML](#html)
+      - [CSS](#css)
+  - [Bugs](#bugs)
+    - [The navbar was not visible as I scrolled the HTML page:](#the-navbar-was-not-visible-as-i-scrolled-the-html-page)
+    - [Value error HttpResponse object returning none:](#value-error-httpresponse-object-returning-none)
+    - [There was no space between hole guides in the HTML page:](#there-was-no-space-between-hole-guides-in-the-html-page)
+    - [I encountered this error:](#i-encountered-this-error)
+    - [Unfixed Bugs](#unfixed-bugs)
+  - [Deployment](#deployment)
+    - [Setup Instructions](#setup-instructions)
+      - [Install Django](#install-django)
+      - [Collect static files](#collect-static-files)
+      - [Run Development Server](#run-development-server)
+      - [Access the site](#access-the-site)
+    - [Version Control](#version-control)
+  - [Wireframes](#wireframes)
+    - [Home page](#home-page)
+    - [Course detail](#course-detail)
+    - [About page](#about-page)
+    - [Signin page](#signin-page)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Course guide
+
+This project demonstrates the use of **Django Template Language (DTL)** to build a reusable base layout with Bootstrap for styling. The base template provides a consistent navigation bar, footer, and message display system across all pages.
 
 ## Planning
 
@@ -118,8 +187,10 @@
 The site has 6 different course divs per page. Each div has a visually appealing signature picture of the course. A visitor clicks on the course name to find the hole guides. They can then view each hole in ascending order in a simple, clean course detail page. The minimal look complements how simple it is to find the information you need. There are 3 types of user; superuser, editor then reader. Golf pros will be given editor access. Readers are amateur golfers who will be able to register their logins and view the guides.
 Their is an about page that allows users to find out more about the creator.
 
--   Clear Navigation: Easily navigate through different sections of the website.
--   Responsive Design: The site adapts gracefully to various screen sizes, ensuring optimal usability whether you're browsing on a desktop, tablet, or mobile device. I used media queries for the different screen sizes.
+-   Clear Navigation: Easily navigate through different sections of the website. Links will appear within the navbar depending on authentication status. Register and Login appear for anonymous users. Logout links are for logged in users.
+-   Responsive Design: The site adapts gracefully to various screen sizes, ensuring optimal usability whether you're browsing on a desktop, tablet, or mobile device. I used Bootstrap 5 integration for responsive design.
+-   I used the Django messages framework to provide interactive feedback triggered by user actions.
+-   Template content is injected using Django {% block %}
 
 ---
 
@@ -230,22 +301,258 @@ def course_detail(request, slug):
 
 -   In addition to automated testing, this project has also been manually tested to ensure everything works as expected. Here are the steps for manual testing:
 
-Open the game in a web browser. Select a difficulty level, between Easy and Hard. Flip over two cards. If they match, they should stay face up. If they don't match, they should be flipped back over after a short delay. Continue flipping over cards until all pairs have been matched. The game should then display a score indicating how many turns it took to win. Test the game in different browsers and on different devices to ensure it works correctly in all environments.
+Open the site in a web browser. Login as an editor. Select a course I want to add to. Add a hole guide. Logout then login as the approver. Go to the admin page. Approve the new hole guide. Logout then login as the editor of the hole.  Check the hole appears. Check the editor can make changes. Check the editor can delete the hole guide. Test the read only user can view the hole guides.
 
 | Feature          | Action                    | Expected result                           | Tested | Passed | Comments |
 | ---------------- | ------------------------- | ----------------------------------------- | ------ | ------ | -------- |
-| Home             | Click on the "Home" link  | The user is redirected to the main page   | Yes    | Yes    | \-       |
-| " Home page"     |                           |                                           |        |        |          |
-| "Restart" button | Click on "Restart" button | The new cards flip to show the back page  | Yes    | Yes    | \-       |
-| "Easy" button    | Click on "Easy" button    | Easy new cards flip to show the back page | Yes    | Yes    | \-       |
-| "Hard" button    | Click on "Hard" button    | Hard new cards flip to show the back page | Yes    | Yes    | \-       |
+| Home             | Click on the "Home" link  | The user is redirected to the main page   | Yes    | Yes    | \-     
+| "Course detail" | Click on a course name | The course detail page opens  | Yes    | Yes    | \-       |
+| "Edit" button    | Click on "Edit" button    | Form is populated with guide details | Yes    | Yes    | \-       |
+| "Delete" button    | Click on "Delete" button    | Modal pops up to confirm deletion | Yes    | Yes    | \-       |
 
- Use Bootstrap spacing utilities (if using Bootstrap)
-If you're already using Bootstrap, you can add spacing using utility classes:
+#### Error I see when entering a hole number that already exists. This prevents duplicate hole numbers:
 
-<li class="mb-4">  <!-- Adds margin-bottom -->
+```
+IntegrityError at /augusta-national/
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
+Request Method:	POST
+Request URL:	http://127.0.0.1:8000/augusta-national/
+Django Version:	4.2.22
+Exception Type:	IntegrityError
+Exception Value:	
+duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
+DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
+Exception Location:	/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/django/db/backends/utils.py, line 89, in _execute
+Raised during:	courseguide.views.course_detail
+Python Executable:	/usr/local/bin/python3
+Python Version:	3.9.13
+Python Path:	
+['/Users/amitkapila/Documents/vscode-projects/capellano-milestone3',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python39.zip',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/lib-dynload',
+ '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']
+Server time:	Sat, 02 Aug 2025 15:25:58 +0000
+```
 
-Make sure to set Debug=False in the project's settings.py before deploying it to the server else someone can hack your development server and garner sensitive information from your logs.
+#### Differences Between Manual and Automated Testing
+
+-   Manual testing involves a person performing the tests step by step. It's useful for exploratory testing, usability testing, and ad-hoc testing, and it allows for human observation to find issues automated tests might miss.
+
+-   Automated testing involves writing scripts to perform the tests automatically. It's useful for regression testing, load testing, and repetitive tasks, and it's more reliable and faster for large codebases or long-term projects.
+
+-   Both types of testing are important and have their own strengths and weaknesses. A good testing strategy usually involves a combination of both.
+
+
+#### Console
+
+-   Manual testing does not generate internal errors on the page or in the console as a result of user actions.
+
+-   ![Validation](./documentation/console-no-errors.png)
+
+#### Accessibility
+
+-   I used Lighthouse within the Chrome Developer Tools to allow me to test the performance, accessibility, best practices and SEO of the website. I confirmed that the colours and fonts are easy to read and that the site is accessible.
+-   **INDEX PAGE**  
+    ![Lighthouse Index page screenshot ](./documentation/index-lighthouse.png)
+
+-   The website was tested on Chrome, Mozilla, Edge and Safari browsers with no problems found.
+-   Links: Tested and confirmed that each link refer to each page, worked as expected,and redirecting the user between the pages ![Screenshot google extension](./documentation/checkmylinks.png)
+![Screenshot google extension](./documentation/checkmylinksII.png)
+
+#### HTML
+
+-   [HTML Validator](https://validator.w3.org/#validate_by_upload) was run on each page of the project. A lot of errors were found but fixed.    ![Screenshot HTML page validator](./documentation/html-validator.png)
+
+-   Now there are several errors specifically "Error: Attribute secure not allowed on element img at this point" & "Trailing slash on void elements". Since these are generated by the template code I could not change it.
+
+```
+
+ {% else %}
+    {% cloudinary course.featured_image.url width=395 height=269 crop="fill" gravity="auto" alt="Course" %}
+
+```
+-   I added data- to the hole_id attribute as the details page was showing the following issue: ![Screenshot HTML page validator](./documentation/html-details-validator.png)
+
+-    Thereafter the validator reported "Document checking completed. No errors or warnings to show".
+
+#### CSS
+
+-   [Vendor prefixes](https://autoprefixer.github.io/) Used Autoprefixer to parse the CSS and add vendor prefixes.
+-   [CSS Validator](https://validator.w3.org/#validate_by_upload) no syntax errors were identified.
+    ![Screenshot CSS page validator fixed ](./documentation/css-validator.png)
+
+
+---
+
+## Bugs
+
+###   The navbar was not visible as I scrolled the HTML page:
+
+I adjusted the code to use fixed-top.
+
+```
+<nav class="navbar navbar-expand-lg navbar-light bg-navbar fixed-top">
+```
+
+This way it is always visible even if you scroll to the bottom. However it took up vertical space, so I added padding to the top of the page content to avoid it being hidden under the navbar. I used DevTools to work how out how much padding to use based on the height of the nav bar:
+
+```
+body {
+    background-color: #F9FAFC;
+    font-family: 'Barlow', sans-serif;
+    padding-top: 76px; /* Adjust depending on your navbar height */
+}
+
+```
+
+---
+
+###   Value error HttpResponse object returning none:
+
+ValueError at /manor-house/delete_hole_guide/23/
+The view courseguide.views.hole_guide_delete didn't return an HttpResponse object. It returned None instead.
+
+-   I knew that Django views must return an HttpResponse. I could see the view function hole_guide_delete _did_ have the required response code.
+
+```
+
+ if hole_guide.author == request.user:
+        hole_guide.delete()
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            "Your hole guide has been deleted."
+            )
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "You do not have permission to delete this hole guide."
+        )
+        return HttpResponseRedirect(reverse('course_detail', args=[slug]))
+
+```
+
+-   I then deducted that the error was caused by the return statement being in the same column as the else code. I had to restructure the code. I moved the return so that it was on the same column as the if-else blocks. That way one always ends with a return HttpResponseRedirect(...), regardless of which branch the logic goes down.
+
+---
+
+###   There was no space between hole guides in the HTML page:
+
+I wanted to have more space between li elements in the HTML page.
+
+-   Since I was using Bootstrap I wanted to use similar code. I employed the *mb-4* class to be consistent
+
+```
+                     {% for hole in hole_guides %}
+                    <li class="mb-4">
+                        <h3>Hole {{ hole.hole_number }}{% if hole.name %}: {{ hole.name }}{% endif %}</h3>
+
+```
+
+---
+
+
+###   I encountered this error:
+
+Exception Type:	RuntimeError
+Exception Value:	
+You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/manor-house/edit/21/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+
+I add a slash to `edit/${holeId}/:
+
+```
+    // Update form fields with the retrieved content
+    submitButton.innerText = "Update";
+    holeForm.setAttribute("action", `edit/${holeId}/`);
+  });
+
+```
+
+---
+
+### Unfixed Bugs
+
+All bugs identified were fixed
+
+## Deployment
+
+### Setup Instructions
+
+#### Install Django
+
+```
+pip3 install django
+```
+
+#### Collect static files
+
+```
+python3 manage.py collectstatic
+
+```
+
+#### Run Development Server
+
+```
+python3 manage.py runserver
+
+```
+
+#### Access the site
+
+-   Open http://127.0.0.1:8000 in your browser.
+
+### Version Control
+
+-   The site was created using VS Code as IDE and pushed to Github to the remote repository 'capellano_acme'.
+-   Git commands were employed extensively during development to push the code to the remote repository. Prior to pushing the code to the repo I had to make sure to set Debug=False in the project's settings.py before deploying it to the server else someone can hack the development server and garner sensitive information from the logs. The sequence of Git commands utilized includes:
+    -   **git add .**: This command adds the files to the staging area, preparing them for commitment.
+    -   **git commit -m "commit message"**: It commits the changes to the local repository queue, marking them as ready for the final step.
+    -   **git push**: This command is executed to push all committed code to the remote repository on Github.
+    ### Deployment to Github pages
+    The site was deployed to GitHub pages. The steps taken to deploy are as follows:
+    1. Log in to [Github](https://github.com/);
+    2. Navigate to [AmitKapilaCodeIns/capellano_acme](https://github.com/AmitKapilaCodeIns/capellano_acme) in the list of repositories;
+    3. In the GitHub repository, navigate to the Settings tab;
+    4. In Settings scroll down to GitHub pages which opens in a new page;
+    5. From the source section drop-down menu, select the Master Branch;
+    6. Once the master branch has been selected, the page is automatically refreshed and a display indicates the successful deployment and the link to the address.
+    
+    The live link can be accessed here: [Rocket Guides](https://courseguide-c34cc0b394d2.herokuapp.com)
+    1. Open your project's Heroku dashboard and click the deploy tab and Deploy Branch.
+    2. Open the app.
+
+    ### Cloning Repository Code locally
+    -   To clone the repository code locally, follow these steps:
+    1. Navigate to the Github repository you wish to clone;
+    2. Click on the "Code" button located above all the project files;
+    3. Select "HTTPS" and copy the repository link;
+    4. Open the IDE of your choice and paste the copied git URL into the IDE terminal;
+    5. Press Enter to execute the command;
+    6. The project will now be created as a local clone in your IDE.
+
+---
+
+## Wireframes
+
+-   These wireframes were created using simple ASCII-style text during the Scope Plane part of the design and planning process for this project. The site was developed with the Desktop layout method first. The wireframes were therefore drawn with that thought in mind and adapted alongside project changes. , Second picture: Coaching page, Third picture: Member page, Fourth picture: Thank you page.
+### Home page
+-   ![Screenshot Home Page wireframe ](./documentation/wframeHome.png)
+---
+### Course detail
+-   ![Screenshot Coourse detail page Wiframe ](./documentation/wframeCourseDetail.png)
+---
+### About page
+-   ![Screenshot About page Wiframe](./documentation/wiframeAbout.png)
+---
+### Signin page
+-   ![Screenshot sign in Wiframe](./documentation/wframeSignIn.png)
+---
+
+
 
 The MIDDLEWARE section helps you with security.
 
@@ -472,29 +779,7 @@ As shown in the topic image, the object was being passed to the template as a Py
 
 Entering a hole guide using post method:
 
-What I see when entering a hole number that already exists:
 
-IntegrityError at /augusta-national/
-duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
-DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
-Request Method:	POST
-Request URL:	http://127.0.0.1:8000/augusta-national/
-Django Version:	4.2.22
-Exception Type:	IntegrityError
-Exception Value:	
-duplicate key value violates unique constraint "courseguide_holeguide_course_id_hole_number_e508ec85_uniq"
-DETAIL:  Key (course_id, hole_number)=(4, 3) already exists.
-Exception Location:	/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/django/db/backends/utils.py, line 89, in _execute
-Raised during:	courseguide.views.course_detail
-Python Executable:	/usr/local/bin/python3
-Python Version:	3.9.13
-Python Path:	
-['/Users/amitkapila/Documents/vscode-projects/capellano-milestone3',
- '/Library/Frameworks/Python.framework/Versions/3.9/lib/python39.zip',
- '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9',
- '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/lib-dynload',
- '/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']
-Server time:	Sat, 02 Aug 2025 15:25:58 +0000
 
 Enter a link to Desktop/restrictedHoleEntry.png
 
