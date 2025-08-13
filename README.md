@@ -34,8 +34,15 @@
   - [Models](#models)
     - [Hole guide model](#hole-guide-model)
     - [Course model](#course-model)
+    - [About model](#about-model)
   - [Code](#code)
       - [Files](#files)
+      - [Environment variables (env.py)](#environment-variables-envpy)
+      - [Database Configuration (settings.py & dj_database_url)](#database-configuration-settingspy--dj_database_url)
+      - [Slug Usage](#slug-usage)
+      - [Loose Coupling with urls.py](#loose-coupling-with-urlspy)
+      - [Static and Media Files](#static-and-media-files)
+      - [Templates and views](#templates-and-views)
       - [Code format](#code-format)
       - [Code understandability](#code-understandability)
       - [Code validation](#code-validation)
@@ -234,6 +241,17 @@ FK | Author | User Model | cascade on delete |
 --- | updated_on | DateTimeField | auto_now
 ---
 
+### About model
+
+- Stores information about the site author
+
+Key | Name | Type | Extra info |
+--- | --- | --- | --- |
+--- | title | Char(200) | Unique |
+--- | updated_on | DateTimeField | auto_now |
+--- | profile_image | CloudinaryField | default='placeholder'|
+--- | content | TextField() | 
+
 ## Code
 
 #### Files
@@ -281,6 +299,167 @@ templates:
 account		mfa		socialaccount
 base.html	openid		tests
 </code></pre>
+
+#### Environment variables (env.py)
+
+- Keep sensitive data out of version control.
+- Note: Never commit env.py to GitHub. By adding the env.py file to .gitignore, it will not be tracked by git or pushed to GitHub. This keeps our secret information safe by not having it publicly available. For example the os.environ.setdefault command sets an environment variable in the local operating system. We supply the variable name and value in the parentheses. In our case, this is called DATABASE_URL and the value is the URL we copied from our PostgreSQL from Code Institute email.
+
+
+```
+import os
+
+os.environ.setdefault("SECRET_KEY", "your-secret-key")
+os.environ.setdefault("DATABASE_URL", "postgres://user:password@hostname:port/dbname")
+os.environ.setdefault("CLOUDINARY_URL", "cloudinary://api_key:api_secret@cloud_name")
+
+```
+
+#### Database Configuration (settings.py & dj_database_url)
+
+```
+import dj_database_url
+from pathlib import Path
+import os
+
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+```
+- Heroku will provide the DATABASE_URL via Config Vars. I need to set the environment variable separately on Heroku because, as mentioned, our env.py file is not pushed to GitHub.
+- The dj_database_url import is used to convert the database URL we copied from our PostgreSQL from Code Institute email into a format that Django can use to connect to an external database server.
+
+#### Slug Usage
+- Used in models.py for SEO-friendly URLs. The slug uses human-readable words, rather than just random characters, to indicate the content of the webpage
+```slug = models.SlugField(unique=True)```
+- Automatically included in urls.py patterns:
+```path('course/<slug:slug>/', views.course_detail, name='course_detail')```
+
+#### Loose Coupling with urls.py
+- Each app has its own urls.py. Having one urls.py file per app keeps our apps more modular and independent. This enables an app from one project to be dropped into another.
+- Main project urls.py includes them:```path("", include("courseguide.urls"), name="courseguide-urls"),```
+
+#### Static and Media Files
+- Cloudinary Storage for media:
+```
+INSTALLED_APPS = [
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
+    ...
+]
+```
+
+#### Templates and views
+- In the index.html the for loop iterates over the course_list object: ```{% for course in course_list %}```
+
+This object is passed into the template by the views.py generic ListView, and contains the contents of the queryset we defined earlier.
+
+```
+class Course***List***(generic.ListView):
+    queryset = ***Course***.objects.all()  # Only show published courses
+    template_name = 'courseguide/index.html'  # Template to render the course list
+```
+
+- This if statement checks to see how many times our for loop has run. If the counter is divisible by three, then it inserts another closing div tag and a new div with the class of row. This is so that we have a maximum of three posts per row on the homepage
+
+```
+  {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+                {% endif %}
+```
+
+- The index.html has DTL tags. For example in the index.html, there's an anchor tag with the class of course-link", which links back to the course details.
+
+```
+<a href="{% url 'course_detail' course.slug %}" class="course-link">
+<h2 class="card-title">{{ course.course_name }}</h2>
+</a>
+```
+
+- The course_guide/urls.py has a path that references the course_detail view with the name of *course_detail*.
+```
+urlpatterns = [
+    path(
+        '',
+        views.CourseList.as_view(),
+        name='home'
+    ),  # URL for the course list view
+    path(
+        '<slug:slug>/',
+        views.course_detail,
+        name='course_detail'
+    ),  # URL for course detail view
+```
+
+- So, when Django encounters a url tag, it looks up the name of the URL and inserts it for us.
+
+- At the top of the base.html we are assigning the 'home' URL to a variable named home_url, which is what the as keyword does. 
+```
+ {% url 'home' as home_url %}
+```
+
+- We have to assign it to the variable home_url because the url itself is a tag, so we can't nest a tag inside another tag, so we had to assign the output of url to a variable.
+
+- Then in our if statement it compares request.path, which is our current URL, with the home_url variable. If they're the same, then it inserts the word active into the class names.
+```
+   <a class="nav-link {% if request.path == home_url %}active{% endif %}" 
+```
+
+- We have used DTL logic to add the active attribute to the link for the page we are currently on. 
+```
+ <li class="nav-item">
+  <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+      <a class="nav-link {% if request.path == about_url %}active{%endif%}" aria-current="page" 
+        href="{% url 'about' %}">About</a>
+</li>
+  {% if user.is_authenticated %}
+  <li class="nav-item">
+      <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
+          href="{% url 'account_logout' %}">Logout</a>
+  </li>
+  {% else %}
+  <li class="nav-item">
+      <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
+          href="{% url 'account_signup' %}">Register</a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
+          href="{% url 'account_login' %}">Login</a>
+  </li>
+```
+
+- However, you can see we also have aria-current="page" so that assistive technologies like screen readers know the current
+page. This is currently on all page links. This is fixed by moving the endif so it, too, only appears in the rendered link HTML when we are on that specific page.
+```
+                     <li class="nav-item">
+                        <a class="nav-link {% if request.path == home_url %}active" aria-current="page{% endif %}"
+                            href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link
+                          {% if request.path == about_url %}active" aria-current="page{% endif %}"
+                            href="{% url 'about' %}">About</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == logout_url %}active" aria-current="page{% endif %}"
+                            href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == signup_url %}active" aria-current="page{% endif %}"
+                            href="{% url 'account_signup' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == login_url %}active" aria-current="page{% endif %}"
+                            href="{% url 'account_login' %}">Login</a>
+                    </li>
+                    {% endif %}
+```
 
 
 #### Code format
