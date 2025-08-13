@@ -31,6 +31,9 @@
     - [Modify or delete hole guides for a course](#modify-or-delete-hole-guides-for-a-course)
       - [As a Golf Pro I can modify or delete my comments on a hole guide so that I can provide professional tips to players](#as-a-golf-pro-i-can-modify-or-delete-my-comments-on-a-hole-guide-so-that-i-can-provide-professional-tips-to-players)
   - [Features](#features)
+  - [Models](#models)
+    - [Hole guide model](#hole-guide-model)
+    - [Course model](#course-model)
   - [Code](#code)
       - [Files](#files)
       - [Code format](#code-format)
@@ -192,6 +195,43 @@ Their is an about page that allows users to find out more about the creator.
 -   I used the Django messages framework to provide interactive feedback triggered by user actions.
 -   Template content is injected using Django {% block %}
 
+---
+
+## Models
+
+Hole model, Guide model, User model track pro who wrote it. Guide model link to Hole model so that we know which hole has had a guide added to it. The hole and guide models need to link the user model so we know who wrote what.
+
+### Hole guide model
+
+Key | Name | Type | Extra info |
+--- | --- | --- | --- |
+FK | course | course Model | cascade on delete |
+FK | author | User model | cascade on delete |
+--- | hole_number | IntegerField |  |
+--- | name | CharField | --- |
+--- | Par | PositiveSmallIntegerField |  |
+--- | Yardage | PositiveIntegerField |  |
+--- | stroke_index | PositiveIntegerField |  |
+--- | guide | TextField ||
+--- | featured_image | CloudinaryField | |
+--- | approved | BooleanField | |
+--- | created_on | DateTimeField | |
+
+### Course model
+
+Course_name and slug values should be unique to avoid having courses of the same name confusing your users. In Django, the slug is what you'll use to build a URL for each of your posts.
+
+Key | Name | Type | Extra info |
+--- | --- | --- | --- |
+--- | Course_name | Char(200) | Unique |
+--- | Slug (unique) | SlugField | Unique |
+FK | Author | User Model | cascade on delete |
+--- | featured_image | CloudinaryField | |
+--- | contact_info | CharField | |
+--- | Content | TextField |  |
+--- | created_on | DateTimeField | auto_now_add
+--- | Status | Integer |  |
+--- | updated_on | DateTimeField | auto_now
 ---
 
 ## Code
