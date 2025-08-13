@@ -309,6 +309,9 @@ Open the site in a web browser. Login as an editor. Select a course I want to ad
 | "Course detail" | Click on a course name | The course detail page opens  | Yes    | Yes    | \-       |
 | "Edit" button    | Click on "Edit" button    | Form is populated with guide details | Yes    | Yes    | \-       |
 | "Delete" button    | Click on "Delete" button    | Modal pops up to confirm deletion | Yes    | Yes    | \-       |
+| Pagination    | Click on "next and previous" buttons    | Only 6 courses per page | Yes    | Yes    | \-       |
+| Edit/Delete buttons    | Login as pro    | Buttons only for pro that created the hole guide | Yes    | Yes    | \-       |
+| Unique hole numbers per course    | Login as pro    | refer to error below  | Yes    | Yes    | \-       |
 
 #### Error I see when entering a hole number that already exists. This prevents duplicate hole numbers:
 
@@ -470,6 +473,7 @@ I add a slash to `edit/${holeId}/:
   });
 
 ```
+
 
 ---
 
