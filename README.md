@@ -460,7 +460,42 @@ page. This is currently on all page links. This is fixed by moving the endif so 
                     </li>
                     {% endif %}
 ```
+- I have a form in my course_detail.html file:
 
+```
+  <!-- Creating New Hole Guide -->
+                <div class="col-md-4 card mb-4 mt-3">
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                        <h3>Please enter a guide to the hole:</h3>
+                        <p>Creating the guide as: {{ user.username }}</p>
+                        <form id="commentForm" method="post" style="margin-top: 1.3em;">
+                            {{ hole_form | crispy }}
+                            {% csrf_token %}
+                            <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
+                        </form>
+                        {% else %}
+                        <p>Log in to enter a hole guide</p>
+                        {% endif %}
+                    </div>
+                </div>
+```
+- When I select the upload image I want it to be a cloudinary image.
+
+- To allow file uploads such as Cloudinary images via a form in my course_detail.html, I need to make two key changes:
+  * Update the HTML form to support file uploads
+My form was missing the enctype="multipart/form-data" attribute, which is required to handle file uploads so it now looks like this:```<form id="commentForm" method="post" enctype="multipart/form-data" style="margin-top: 1.3em;">```
+  * So that my view handles request.FILES in my views.py, where I'm handling hole_form, I include request.FILES when creating the form instance:
+```
+if request.method == 'POST':
+    hole_form = HoleGuideForm(request.POST, request.FILES)
+    if hole_form.is_valid():
+        hole_guide = hole_form.save(commit=False)
+        hole_guide.author = request.user
+        hole_guide.course = course  # Link it to the current course
+        hole_guide.save()
+        return redirect('course_detail', slug=course.slug)
+```
 
 #### Code format
 
@@ -531,6 +566,10 @@ Open the site in a web browser. Login as an editor. Select a course I want to ad
 | Pagination    | Click on "next and previous" buttons    | Only 6 courses per page | Yes    | Yes    | \-       |
 | Edit/Delete buttons    | Login as pro    | Buttons only for pro that created the hole guide | Yes    | Yes    | \-       |
 | Unique hole numbers per course    | Login as pro    | refer to error below  | Yes    | Yes    | \-       |
+
+- Testing illustration
+
+![Selecting a hole number](./documentation/restrictedHoleEntry.png)
 
 #### Error I see when entering a hole number that already exists. This prevents duplicate hole numbers:
 
