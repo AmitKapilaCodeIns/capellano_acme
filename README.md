@@ -72,6 +72,7 @@
     - [Course detail](#course-detail)
     - [About page](#about-page)
     - [Signin page](#signin-page)
+  - [Credits](#credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -813,6 +814,26 @@ python3 manage.py runserver
 ### Signin page
 -   ![Screenshot sign in Wiframe](./documentation/wframeSignIn.png)
 ---
+
+## Credits
+
+-   I would like to extend a special thanks to my tutor [Spencer Barriball](https://www.linkedin.com/in/spencerbarriball/), whose guidance and support have been invaluable throughout this journey.
+    ### Content
+-   The icons in the footer and in the headings were taken from:[Font Awesome](https://fontawesome.com/).
+-   The Logo and Favicon was created by Ylivdesign from:[flaticon.com](https://www.flaticon.com/free-icons).
+-   I took inspiration from the Blog project to create the header, sections and footer. Other parts were inspired by [w3schools](https://www.w3schools.com/)
+-   [Google fonts](https://fonts.google.com/) were used to import the fonts into the style.css file which is used on all pages throughout the project.
+    [WebAIM](https://webaim.org/resources/contrastchecker/) were used to contrast the color palettes, into the style.css file which is used on all pages throughout the project.
+-   Part of the English content in this website was generated with the assistance of [AI-ChatGPT](https://chat.openai.com/), an AI language model developed by OpenAI.
+-   [Mockup](https://websitemockupgenerator.com) was used to create the mockup.
+-   [DTL help](https://docs.djangoproject.com/en/5.2/topics/signals/) was used to help me with login authentication.
+
+    ### Media
+
+-   All the images in each course of the site was taken from: [Augusta](https://www.golfmonthly.com/tour/us-masters/augusta-blog/augusta-national-hole-names-88155), [Richings](https://www.richingspark.co.uk/course_overview), [Wyke Green](https://www.wykegreengolfclub.co.uk/course/course-tour/hole-1/), [Manor House](https://www.exclusive.co.uk/the-manor-house-golf-club/hole-guide/).
+-   For a better performance of the website, the images were resized and the format changed to WEBP using the [Birme](https://www.birme.net/) website.
+
+[def]: .documentation/checkmylinks.png
 
 
 
