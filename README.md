@@ -196,7 +196,7 @@ This project demonstrates the use of **Django Template Language (DTL)** to build
 ## Features
 
 The site has 6 different course divs per page. Each div has a visually appealing signature picture of the course. A visitor clicks on the course name to find the hole guides. They can then view each hole in ascending order in a simple, clean course detail page. The minimal look complements how simple it is to find the information you need. There are 3 types of user; superuser, editor then reader. Golf pros will be given editor access. Readers are amateur golfers who will be able to register their logins and view the guides.
-Their is an about page that allows users to find out more about the creator.
+There is an about page that allows users to find out more about the creator.
 
 -   Clear Navigation: Easily navigate through different sections of the website. Links will appear within the navbar depending on authentication status. Register and Login appear for anonymous users. Logout links are for logged in users.
 -   Responsive Design: The site adapts gracefully to various screen sizes, ensuring optimal usability whether you're browsing on a desktop, tablet, or mobile device. I used Bootstrap 5 integration for responsive design.
@@ -315,6 +315,51 @@ os.environ.setdefault("DATABASE_URL", "postgres://user:password@hostname:port/db
 os.environ.setdefault("CLOUDINARY_URL", "cloudinary://api_key:api_secret@cloud_name")
 
 ```
+#### Groups and Permissions
+
+- There are 3 types of users: superuser, editor (can add/edit Hole Guides) and reader
+- In my signals.py the Group model lets me group permissions
+
+
+```
+from django.contrib.auth.models import Group, Permission
+
+
+# Create groups
+editors_group, created = Group.objects.get_or_create(name='Editors')
+readers_group, created = Group.objects.get_or_create(name='Readers')
+
+# Assign permissions to groups
+add_perm = Permission.objects.get(codename='add_holeguide')
+change_perm = Permission.objects.get(codename='change_holeguide')
+editors_group.permissions.add(add_perm, change_perm)
+
+# Readers get no special permissions (they can only view))
+```
+
+- In Django Admin:
+I go to Users → Edit a user → Scroll to Groups
+Assign:
+Superuser: leave as is,
+Editors: assign to Editors,
+Read-only users: assign to Readers
+
+- In my views.py I added the @login_required decorator on the course_detail function. This checks the user is logged in.
+
+- I also check the user has the permission defined in the views.py.
+<pre>
+if request.method == "POST":
+        if not request.user.has_perm('courseguide.<b>add_holeguide</b>'):
+            raise PermissionDenied(
+                "You do not have permission to add hole guides."
+            )
+</pre>
+
+- In my course_detail.html file I use the same permission:
+
+<pre>
+{% if user.is_authenticated and perms.courseguide.<b>add_holeguide</b> %}
+</pre>
 
 #### Database Configuration (settings.py & dj_database_url)
 
@@ -403,12 +448,12 @@ urlpatterns = [
 
 - We have to assign it to the variable home_url because the url itself is a tag, so we can't nest a tag inside another tag, so we had to assign the output of url to a variable.
 
-- Then in our if statement it compares request.path, which is our current URL, with the home_url variable. If they're the same, then it inserts the word active into the class names.
+- Then in my if statement it compares request.path, which is our current URL, with the home_url variable. If they're the same, then it inserts the word active into the class names.
 ```
    <a class="nav-link {% if request.path == home_url %}active{% endif %}" 
 ```
 
-- We have used DTL logic to add the active attribute to the link for the page we are currently on. 
+- I have used DTL logic to add the active attribute to the link for the page we are currently on. 
 ```
  <li class="nav-item">
   <a class="nav-link {% if request.path == home_url %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
