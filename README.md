@@ -78,6 +78,8 @@
 
 # Course guide
 
+-> [view live site](https://courseguide-c34cc0b394d2.herokuapp.com/)
+
 This project demonstrates the use of **Django Template Language (DTL)** to build a reusable base layout with Bootstrap for styling. The base template provides a consistent navigation bar, footer, and message display system across all pages.
 
 ## Planning
